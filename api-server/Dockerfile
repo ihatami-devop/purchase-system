@@ -16,4 +16,6 @@ COPY --exclude=venv --exclude=__pycache__ --exclude=requirements.txt --exclude=D
 
 EXPOSE 5000
 
-CMD [ "python", "app.py" ]
+
+ENTRYPOINT [ "gunicorn" ]
+CMD [ "--bind", "0.0.0.0:5000", "app:app" ]

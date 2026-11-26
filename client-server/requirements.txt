@@ -2,3 +2,4 @@ flask
 kafka-python
 flask-cors
 requests
+gunicorn

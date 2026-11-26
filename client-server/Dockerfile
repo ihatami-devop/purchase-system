@@ -14,4 +14,5 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 COPY --exclude=venv --exclude=requirements.txt --exclude=Dockerfile . .
 
-CMD [ "python", "app.py" ]
+ENTRYPOINT [ "gunicorn" ]
+CMD [ "--bind", "0.0.0.0:5001", "app:app" ]
