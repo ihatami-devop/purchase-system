@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 CLIENT_API_URL = os.getenv(
     "CLIENT_API_URL",
-    "http://localhost:5001"
+    os.getenv("CLIENT_API_URL")
 )
 
 COMPONENTS = {
