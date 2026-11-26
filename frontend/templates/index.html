@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCForge — Configure your PC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="site-header">
+    <a class="brand" href="#" aria-label="PCForge home">PC<span>FORGE</span></a>
+    <nav class="site-nav" aria-label="Main navigation">
+        <a href="#">Gaming PCs</a><a href="#">Components</a><a href="#">Gaming gear</a><a href="#">Support</a>
+    </nav>
+    <div class="header-actions"><span class="header-status">CUSTOM PC BUILDER</span><button type="button" id="open-purchases">Latest purchases</button></div>
+</header>
+
+<main class="builder-shell">
+    <section class="build-workspace" aria-label="Your PC build">
+        <div class="workspace-heading">
+            <div><p class="breadcrumb">PC BUILDER <span>/</span> CUSTOM BUILD</p><h1>H5 Flow Build</h1></div>
+            <div class="workspace-actions"><button type="button" id="restart-build">Restart</button><button type="button" id="share-build">Share</button></div>
+        </div>
+
+        <div class="build-overview">
+            <div class="case-stage">
+                <button class="stage-arrow previous" type="button" aria-label="Previous case">‹</button>
+                <div class="stage-image-wrap">
+                    <img id="case-preview" src="{{ components['Case'][0].image }}" alt="{{ components['Case'][0].name }} PC case">
+                    <div class="case-fallback" hidden aria-hidden="true"><span>PC</span></div>
+                </div>
+                <button class="stage-arrow next" type="button" aria-label="Next case">›</button>
+                <div class="stage-dots" aria-label="Choose a case">
+                    {% for pc_case in components['Case'] %}
+                    <button type="button" data-case-id="{{ pc_case.id }}" aria-label="Preview {{ pc_case.name }}"></button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="build-config" id="build-config" aria-live="polite"></div>
+        </div>
+
+        <section class="performance-card">
+            <div class="performance-heading"><div><span class="performance-icon">◴</span><strong>Performance</strong></div><button type="button" id="toggle-performance" aria-expanded="false">⌄</button></div>
+            <div class="performance-details" id="performance-details" hidden>
+                <div><span>Estimated power</span><strong id="estimated-power">0 W</strong></div>
+                <div><span>Selected components</span><strong id="selected-count">0 / 8</strong></div>
+            </div>
+        </section>
+
+        <footer class="workspace-footer">
+            <div class="delivery-note"><span class="delivery-check">✓</span><span><small>Estimated ship date</small><strong>Calculated at checkout</strong></span></div>
+            <div class="subtotal"><span>Subtotal</span><strong id="total-price">$0.00</strong></div>
+            <button type="button" class="next-button" id="next-step">Next</button>
+        </footer>
+    </section>
+
+    <aside class="picker-panel" aria-label="Component selector">
+        <div class="picker-tabs" role="tablist" aria-label="Build sections">
+            <button type="button" class="picker-tab active" role="tab" aria-selected="true" data-tab="base">Base</button>
+            <button type="button" class="picker-tab" role="tab" aria-selected="false" data-tab="addons">Add-ons</button>
+            <button type="button" class="picker-tab" role="tab" aria-selected="false" data-tab="summary">Summary</button>
+        </div>
+        <div class="picker-content">
+            <div id="category-navigation" class="category-navigation" aria-label="Component categories"></div>
+            <section class="product-picker" id="product-picker">
+                <div class="picker-heading"><div><h2 id="active-category-title">CPU</h2><span class="info-dot" title="Select one option for this category">i</span></div><label class="sr-only" for="brand-filter">Filter by brand</label><select id="brand-filter"><option value="all">All brands</option></select></div>
+                <div id="product-options" class="product-options"></div>
+            </section>
+        </div>
+    </aside>
+</main>
+
+<dialog class="overlay-dialog" id="build-summary-dialog" aria-labelledby="summary-title">
+    <div class="dialog-header">
+        <div><p class="eyebrow">YOUR CONFIGURATION</p><h2 id="summary-title">Build summary</h2></div>
+        <button type="button" class="dialog-close" data-close="build-summary-dialog" aria-label="Close build summary">×</button>
+    </div>
+    <p class="dialog-intro">Review your components and compatibility before submitting your order.</p>
+    <div id="summary-list" class="summary-list"></div>
+    <div class="summary-total"><span>Subtotal</span><strong id="summary-price">$0.00</strong></div>
+    <div class="purchase-validation" id="purchase-validation" role="status"></div>
+    <button type="button" class="purchase-button" id="purchase-button">Place order</button>
+    <p class="purchase-note">Submitting sends this build to the purchase processing system.</p>
+</dialog>
+
+<dialog class="overlay-dialog purchases-dialog" id="purchases-dialog" aria-labelledby="purchases-title">
+    <div class="dialog-header">
+        <div><p class="eyebrow">ORDER HISTORY</p><h2 id="purchases-title">Latest purchases</h2></div>
+        <button type="button" class="dialog-close" data-close="purchases-dialog" aria-label="Close latest purchases">×</button>
+    </div>
+    <div class="purchases-toolbar"><p>Most recent orders from the purchase system.</p><button type="button" id="refresh-purchases">Refresh</button></div>
+    <div id="purchase-list" class="purchase-list" aria-live="polite"><p class="empty-state">Loading purchases…</p></div>
+</dialog>
+
+<script id="component-data" type="application/json" data-api-url="{{ client_api_url }}">{{ components | tojson }}</script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
