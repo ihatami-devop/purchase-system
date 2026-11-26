@@ -1,0 +1,20 @@
+# Terraform working directory and provider cache
+.terraform/
+
+# Local state can contain infrastructure details and sensitive values
+*.tfstate
+*.tfstate.*
+
+# Local variable values; keep the example file in version control
+*.tfvars
+*.tfvars.json
+
+# Terraform crash logs and local CLI overrides
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
