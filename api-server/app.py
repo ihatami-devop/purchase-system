@@ -1,10 +1,12 @@
+import os
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from database import purchases_collection
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:8000"])
+CORS(app, origins=[os.getenv("FRONTEND_URL")])
 
 @app.route("/health", methods=["GET"])
 def health():

@@ -1,18 +1,18 @@
 import json
 import requests
+import os
 
 from flask_cors import CORS
 from flask import Flask, jsonify, request
 from kafka import KafkaProducer
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:8000"])
+CORS(app, origins=[os.getenv("FRONTEND_URL")])
 
 producer = KafkaProducer(
-    bootstrap_servers="localhost:9092",
+    bootstrap_servers=os.getenv("KAFKA_URL"),
     value_serializer=lambda value: json.dumps(value).encode("utf-8")
 )
-
 
 @app.route("/buy", methods=["POST"])
 def buy_item():
@@ -26,7 +26,7 @@ def buy_item():
 @app.route("/purchases", methods=["GET"])
 def get_purchases():
     response = requests.get(
-        "http://localhost:5000/purchases",
+        os.getenv("API_SERVER_URL"),
         timeout=5
     )
 

@@ -1,7 +1,6 @@
 flask
 gunicorn
 pymongo
-python-dotenv
 kafka-python
 requests
 flask-cors

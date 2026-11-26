@@ -1,11 +1,12 @@
 import json
 import requests
+import os
 
 from kafka import KafkaConsumer
 
 consumer = KafkaConsumer(
     "purchases",
-    bootstrap_servers="localhost:9092",
+    bootstrap_servers=os.getenv("KAFKA_URL"),
     group_id="purchase-consumer-group",
     auto_offset_reset="earliest",
     enable_auto_commit=False, # Used this so Kafka does not commit unsuccessful purchases
@@ -22,7 +23,7 @@ def consume_messages():
         try:
             # Trying to insert the purchase into the DB through the api-server
             response = requests.post(
-                "http://localhost:5000/purchases",
+                os.getenv("API_SERVER_URL"),
                 json=purchase,
                 timeout=20
             )
