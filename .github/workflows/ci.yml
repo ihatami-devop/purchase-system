@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install Python tools
+        run: |
+          python -m pip install pylint ruff -r api-server/requirements.txt -r client-server/requirements.txt -r kafka-consumer/requirements.txt -r frontend/requiements.txt
+
+      - name: Pylint
+        run: pylint api-server/*.py client-server/*.py kafka-consumer/*.py frontend/*.py
+
+      - name: Ruff security checks
+        run: ruff check --select S --ignore S104 api-server client-server kafka-consumer frontend
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Terraform format
+        run: terraform -chdir=infrastructure/terraform fmt -check -recursive
+
+      - name: Terraform validate
+        run: |
+          terraform -chdir=infrastructure/terraform init -backend=false -input=false
+          terraform -chdir=infrastructure/terraform validate
