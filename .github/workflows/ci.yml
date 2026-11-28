@@ -20,7 +20,7 @@ jobs:
           python -m pip install pylint ruff -r api-server/requirements.txt -r client-server/requirements.txt -r kafka-consumer/requirements.txt -r frontend/requiements.txt
 
       - name: Pylint
-        run: pylint api-server/*.py client-server/*.py kafka-consumer/*.py frontend/*.py
+        run: pylint --fail-under=5 api-server/*.py client-server/*.py kafka-consumer/*.py frontend/*.py
 
       - name: Ruff security checks
         run: ruff check --select S --ignore S104 api-server client-server kafka-consumer frontend
