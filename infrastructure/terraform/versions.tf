@@ -1,5 +1,13 @@
 terraform {
-  required_version = ">= 1.5.0"
+  required_version = ">= 1.10.0"
+
+  backend "s3" {
+    bucket       = "purchase-system-terraform-lock"
+    key          = "purchase-system/terraform.tfstate"
+    region       = "eu-north-1"
+    encrypt      = true
+    use_lockfile = true
+  }
 
   required_providers {
     aws = {
@@ -20,3 +28,4 @@ provider "aws" {
 data "aws_availability_zones" "available" {
   state = "available"
 }
+

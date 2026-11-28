@@ -1,0 +1,18 @@
+services:
+  mongodb:
+    image: mongo:8.3
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-north-1
+        awslogs-group: /purchase-system/mongodb
+        awslogs-stream: mongodb
+
+volumes:
+  mongodb_data:

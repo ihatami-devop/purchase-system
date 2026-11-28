@@ -10,7 +10,7 @@ variable "project_name" {
 }
 
 variable "vpc_cidr" {
-  description = "IPv4 CIDR block for the VPC. Keep this a /16 because subnet ranges are derived as /24 blocks."
+  description = "IPv4 /16 CIDR block containing the VPC subnets."
   type        = string
   default     = "10.0.0.0/16"
 

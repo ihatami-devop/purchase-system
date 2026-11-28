@@ -33,6 +33,26 @@ output "data_services_security_group_id" {
   value       = aws_security_group.data_services.id
 }
 
+output "mongodb_instance_id" {
+  description = "EC2 instance ID for MongoDB."
+  value       = aws_instance.mongodb.id
+}
+
+output "mongodb_private_ip" {
+  description = "Stable private IPv4 address for MongoDB."
+  value       = aws_instance.mongodb.private_ip
+}
+
+output "kafka_instance_id" {
+  description = "EC2 instance ID for Kafka."
+  value       = aws_instance.kafka.id
+}
+
+output "kafka_private_ip" {
+  description = "Stable private IPv4 address for Kafka."
+  value       = aws_instance.kafka.private_ip
+}
+
 output "nat_gateway_id" {
   description = "ID of the Regional NAT Gateway shared by the private subnets."
   value       = aws_nat_gateway.this.id
